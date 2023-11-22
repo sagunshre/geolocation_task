@@ -1,6 +1,6 @@
 require "open-uri"
 
-class Geolocation
+class Ipstack
   def initialize(base_url=ENV["BASE_URL"], api_key=ENV["ACCESS_KEY"])
     @base = base_url
     @key = api_key
