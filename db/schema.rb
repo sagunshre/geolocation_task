@@ -10,10 +10,9 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_11_22_144713) do
+ActiveRecord::Schema[7.0].define(version: 2023_11_23_142303) do
   create_table "devices", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
-    t.string "ip"
-    t.string "url"
+    t.string "identifier"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
@@ -28,6 +27,9 @@ ActiveRecord::Schema[7.0].define(version: 2023_11_22_144713) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.bigint "device_id"
+    t.string "zip"
+    t.string "ip"
+    t.string "hostname"
     t.index ["device_id"], name: "index_geolocations_on_device_id"
   end
 

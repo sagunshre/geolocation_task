@@ -1,6 +1,4 @@
-require "resolv"
-
 class Device < ApplicationRecord
-  validates :ip, :presence => true, :uniqueness => true, :format => { :with => Resolv::AddressRegex }
+  validates :identifier, :presence => true, :uniqueness => true
   has_one :geolocation
 end

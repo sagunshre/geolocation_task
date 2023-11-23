@@ -1,6 +1,6 @@
 require "open-uri"
 
-class Ipstack
+class LookupService
   attr_accessor :response
   def initialize(base_url=ENV["BASE_URL"], api_key=ENV["ACCESS_KEY"])
     @url = base_url
@@ -9,8 +9,8 @@ class Ipstack
   end
 
   def lookup(param)
-    ip = ERB::Util.url_encode(param)
-    @url += param
+    identifier = ERB::Util.url_encode(param)
+    @url += identifier
     @url += "?access_key=" + @key
     @url += "&language=en"
     @url += "&hostname=1"
