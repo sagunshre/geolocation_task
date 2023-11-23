@@ -1,5 +1,5 @@
 class GeolocationsController < ApplicationController
-  before_action :set_device, only: %i[ show create destory]
+  before_action :set_device, only: %i[ show create destroy]
 
   rescue_from ActionController::UnpermittedParameters do |exception|
     render json: { error: exception.message + ", only 'identifier' field is permited for this api.", status: 422}, status: :unprocessable_entity
@@ -31,7 +31,6 @@ class GeolocationsController < ApplicationController
   def create
     if @device.present?
       @device = @device.first
-      @geolocation = @device.geolocation
       render json: @device, include: ['geolocation'], status: :ok
     else
       lookup_service = LookupService.new
@@ -42,13 +41,22 @@ class GeolocationsController < ApplicationController
     end
   end
 
+  def destroy
+    if @device.present?
+      @device.destroy_all
+      render json: {message: "#{device_params["identifier"]} has been deleted.", status: 200}, status: :ok
+    else
+      render json: {error: "Identifier Not Found", status: 404}, status: :not_found
+    end
+  end
+
   private
   def set_device
     @device = Device.where(identifier: device_params[:identifier]).or(Device.where("identifier LIKE ?", "%#{device_params["identifier"]}%"))
     if @device.empty?
       geo = Geolocation.where(ip: device_params[:identifier])
                        .or(Geolocation.where("hostname LIKE ?", "%#{device_params[:identifier]}%"))
-      @device = [geo.first.device] if geo.present?
+      @device = Device.where(id: geo.first.device_id) if geo.present?
     end
   end
 
