@@ -1,20 +1,20 @@
 require "open-uri"
 
 class Ipstack
+  attr_accessor :response
   def initialize(base_url=ENV["BASE_URL"], api_key=ENV["ACCESS_KEY"])
-    @base = base_url
+    @url = base_url
     @key = api_key
+    @response = nil
   end
 
-  def lookup(ip)
-    ip = ERB::Util.url_encode(ip)
-    url = @base
-    url += ip
-    url += "?access_key=" + @key
-    url += "&language=en"
-    url += "&hostname=1"
-    data = URI.parse(url).read
-    data = JSON.parse(data)
-    data
+  def lookup(param)
+    ip = ERB::Util.url_encode(param)
+    @url += param
+    @url += "?access_key=" + @key
+    @url += "&language=en"
+    @url += "&hostname=1"
+    resp = URI.parse(@url).read
+    @response = JSON.parse(resp)
   end
 end

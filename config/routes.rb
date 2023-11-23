@@ -3,4 +3,6 @@ Rails.application.routes.draw do
 
   # Defines the root path route ("/")
   # root "articles#index"
+  get "/geolocations", to: "geolocations#index"
+  resource :geolocation
 end
