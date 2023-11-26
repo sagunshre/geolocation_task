@@ -1,0 +1,47 @@
+{
+  "type": "object",
+  "properties": {
+    "data": {
+      "type": "object",
+      "properties": {
+        "id": {"type": "string"},
+        "type": {"type": "string"},
+        "attributes": {
+          "type": "object",
+          "required": ["country", "city", "latitude", "longitude"],
+          "properties": {
+            "continent" : {"type" : "string"},
+            "country" : {"type" : "string"},
+            "region" : {"type" : "string"},
+            "city" : {"type" : "string"},
+            "latitude" : {"type" : "string"},
+            "longitude" : {"type" : "string"},
+            "zip" : {"type" : "string"},
+            "ip" : {"type" : "string"},
+            "hostname" : {"type" : "string"},
+            "created_at" : { "type" : "string", "format": "date-time" },
+            "updated_at" : { "type" : "string", "format": "date-time" },
+            "device_identifier": {"type": "string"}
+          }
+        },
+        "relationships": {
+          "type": "object",
+          "properties": {
+            "device": {
+              "type": "object",
+              "properties": {
+                "data": {
+                  "type": "object",
+                  "properties": {
+                    "id": {"type": "string"},
+                    "type": {"type": "string"}
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
