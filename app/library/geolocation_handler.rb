@@ -12,7 +12,7 @@ class GeolocationHandler
       geolocation = Geolocation.new(geolocation_params)
       geolocation.device = device
       geolocation.save!
-      return device
+      return geolocation
     end
   end
 

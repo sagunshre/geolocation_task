@@ -14,15 +14,17 @@ class GeolocationsController < ApplicationController
   end
 
   def index
-    @devices = Device.joins(:geolocation)
-    render json: @devices, include: ['geolocation'], status: :ok
+    @geolocations = Geolocation.all
+    resp = GeolocationSerializer.new(@geolocations).serialized_json
+    render json: resp, status: :ok
   end
 
   def show
     if @device.present?
       @device = @device.first
       @geolocation = @device.geolocation
-      render json: @device, include: ['geolocation'], status: :ok
+      resp = GeolocationSerializer.new(@geolocation).serialized_json
+      render json: resp, status: :ok
     else
       render json: {error: "Identifier Not Found", status: 404}, status: :not_found
     end
@@ -30,15 +32,15 @@ class GeolocationsController < ApplicationController
 
   def create
     if @device.present?
-      @device = @device.first
-      render json: @device, include: ['geolocation'], status: :ok
+      @geolocation = @device.first.try(:geolocation)
     else
       lookup_service = LookupService.new
       lookup_service.lookup(device_params[:identifier])
       handler = GeolocationHandler.new(lookup_service)
-      @device = handler.store(device_params[:identifier])
-      render json: @device, include: ['geolocation'], status: :ok
+      @geolocation = handler.store(device_params[:identifier])
     end
+    resp = GeolocationSerializer.new(@geolocation).serialized_json
+    render json: resp, status: :ok
   end
 
   def destroy
