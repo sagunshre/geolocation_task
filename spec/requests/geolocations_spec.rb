@@ -15,7 +15,6 @@ RSpec.describe "Geolocations", type: :request do
       get "/geolocations"
     end
 
-
     it "Returns http success" do
       expect(response).to have_http_status(:success)
     end
