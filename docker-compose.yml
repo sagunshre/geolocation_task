@@ -19,6 +19,8 @@ services:
       - .:/application
     depends_on:
       - db
+    environment:
+      RAILS_ENV: development
     network_mode: "host"
 
 volumes:
