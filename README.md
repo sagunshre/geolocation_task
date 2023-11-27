@@ -2,7 +2,7 @@
 
 # Setup
 
-1. Make and copy of .env_example and rename it to .env
+1. Make a copy of .env_example and rename it to .env
 2. Add ipstack access key to .env file
 3. Build Services using docker compose
   ``docker-compose build``
