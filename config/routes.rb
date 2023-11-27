@@ -5,4 +5,5 @@ Rails.application.routes.draw do
   # root "articles#index"
   get "/geolocations", to: "geolocations#index"
   resource :geolocation
+  match '*unmatched', to: 'application#routing_error', via: :all
 end

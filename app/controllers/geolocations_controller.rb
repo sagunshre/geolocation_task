@@ -1,4 +1,5 @@
 class GeolocationsController < ApplicationController
+  before_action :return_if_identifier_blank, only: %i[ show create destroy]
   before_action :set_device, only: %i[ show create destroy]
 
   rescue_from ActionController::UnpermittedParameters do |exception|
@@ -7,6 +8,10 @@ class GeolocationsController < ApplicationController
 
   rescue_from LookupException do |exception|
     render json: exception.message
+  end
+
+  rescue_from ActiveRecord::RecordNotFound do |exception|
+    render json: { error: "Geolocation not found", status: 404 }, status: :not_found
   end
 
   rescue_from ActiveRecord::RecordInvalid do |exception|
@@ -53,6 +58,12 @@ class GeolocationsController < ApplicationController
   end
 
   private
+  def return_if_identifier_blank
+    if device_params["identifier"].blank?
+      render json: {error: "Identifier cannot be empty", status: 422}, status: :unprocessable_entity
+    end
+  end
+
   def set_device
     @device = Device.where(identifier: device_params[:identifier]).or(Device.where("identifier LIKE ?", "%#{device_params["identifier"]}%"))
     if @device.empty?

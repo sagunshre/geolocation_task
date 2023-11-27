@@ -50,6 +50,7 @@ end
 
 group :test do
   gem "json-schema"
+  gem "webmock"
 end
 
 group :development do
